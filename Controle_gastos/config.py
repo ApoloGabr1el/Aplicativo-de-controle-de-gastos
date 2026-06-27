@@ -1,11 +1,15 @@
+from dotenv import load_dotenv
 import os
 
-#caminhos
-Base_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_path = os.path.join(Base_DIR, "Database", "gastos.db" )
+load_dotenv()
 
-appearence = "dark"
-color_theme = "blue"
+DB_host = os.getenv ("DB_HOST")
+DB_user = os.getenv ("DB_USER")
+DB_senha = os.getenv ("DB_PASSWORD")
+DB_nome = os.getenv ('DB_NAME')
 
-Largura_tela = 900
-Altura_tela = 600
+aparencia = "dark"
+cor_tema = "blue"
+
+largura_janela = 900
+altura_janela = 600
