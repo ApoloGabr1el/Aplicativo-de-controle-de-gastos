@@ -1,5 +1,5 @@
 import mysql.connector
-from config import DB_host, DB_nome, DB_senha, DB_user
+from Controle_gastos.config import DB_host, DB_nome, DB_senha, DB_user
 
 def conectar():
     return mysql.connector.connect(
