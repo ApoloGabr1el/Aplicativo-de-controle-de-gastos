@@ -1,12 +1,10 @@
 import customtkinter as ctk
 from Funcoes.usuario import validar_login
-from Controle_gastos.config import altura_janela, largura_janela
 
-class tela_login(ctk.CTk):
-    def __init__(self):
-        super().__init__()
-        self.title("Login - Controle de Gastos")
-        self.geometry (f"{largura_janela}x{altura_janela}")
+class tela_login(ctk.CTkFrame):
+    def __init__(self, master, app):
+        super().__init__(master, fg_color="transparent")
+        self.app = app
 
         self.label_email = ctk.CTkLabel(self, text="Email:")
         self.label_email.pack(pady=(150, 5))
@@ -15,7 +13,7 @@ class tela_login(ctk.CTk):
         self.entry_email.pack()
 
         self.label_senha = ctk.CTkLabel(self, text="Senha:")
-        self.label_senha.pack (pady=(30, 5))
+        self.label_senha.pack(pady=(30, 5))
 
         self.entry_senha = ctk.CTkEntry(self, width=250, placeholder_text="Sua senha", show="*")
         self.entry_senha.pack()
@@ -23,9 +21,15 @@ class tela_login(ctk.CTk):
         self.botao_login = ctk.CTkButton(self, text="Entrar", command=self.fazer_login)
         self.botao_login.pack(pady=(30))
 
-        self.label_erro = ctk.CTkLabel (self, text="")
+        self.label_erro = ctk.CTkLabel(self, text="")
         self.label_erro.pack()
-    
+
+        self.botao_voltar = ctk.CTkButton(
+            self, text="Voltar", fg_color="transparent", border_width=2,
+            command=lambda: self.app.mostrar_tela("inicio")
+        )
+        self.botao_voltar.pack(pady=(20, 0))
+
     def fazer_login(self):
         email = self.entry_email.get()
         senha = self.entry_senha.get()
@@ -33,11 +37,7 @@ class tela_login(ctk.CTk):
         usuario = validar_login(email, senha)
 
         if usuario:
-            self.label_erro.configure(text="Login realizado com sucesso!", text_color= "green")
-            print("Usuario logado", usuario)
+            self.app.usuario_logado = usuario
+            self.app.mostrar_tela("hub")
         else:
-            self.label_erro.configure(text="Email ou Senha incorretos", text_color = "red")
-
-if __name__ == "__main__":
-    app = tela_login()
-    app.mainloop()
+            self.label_erro.configure(text="Email ou senha incorretos", text_color= "red")

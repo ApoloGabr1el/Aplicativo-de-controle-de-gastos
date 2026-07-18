@@ -1,12 +1,10 @@
 import customtkinter as ctk
 from Funcoes.usuario import cadastrar_usuario
-from Controle_gastos.config import altura_janela, largura_janela
 
-class tela_cadastro(ctk.CTk):
-    def __init__(self):
-        super().__init__()
-        self.title("Cadastro - Controle de Gastos")
-        self.geometry(f"{largura_janela}x{altura_janela}")
+class tela_cadastro(ctk.CTkFrame):
+    def __init__(self, master, app):
+        super().__init__(master, fg_color="transparent")
+        self.app = app
 
         self.label_nome = ctk.CTkLabel(self, text="Nome:")
         self.label_nome.pack(pady=(60, 5))
@@ -38,6 +36,12 @@ class tela_cadastro(ctk.CTk):
         self.label_erro = ctk.CTkLabel(self, text="")
         self.label_erro.pack()
 
+        self.botao_voltar = ctk.CTkButton(
+            self, text="Voltar", fg_color="transparent",border_width=2,
+            command=lambda: self.app.mostrar_tela("inicio")
+        )
+        self.botao_voltar.pack(pady=(15, 0))
+
     def fazer_cadastro(self):
         nome = self.entry_nome.get()
         email = self.entry_email.get()
@@ -55,11 +59,7 @@ class tela_cadastro(ctk.CTk):
         sucesso, mensagem = cadastrar_usuario(nome, email, senha)
 
         if sucesso:
-            self.label_erro.configure(text=mensagem, text_color="green")
-            print("Usuário cadastrado:", nome, email)
+            self.label_erro.configure(text=f"{mensagem} Redirecionando para o login...", text_color="green")
+            self.after(1500, lambda: self.app.mostrar_tela("login"))
         else:
             self.label_erro.configure(text=mensagem, text_color="red")
-
-if __name__ == "__main__":
-    app = tela_cadastro()
-    app.mainloop()
