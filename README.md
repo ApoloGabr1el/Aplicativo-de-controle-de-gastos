@@ -1,6 +1,4 @@
-Claro. Vou assumir que você está falando do **README do Aplicativo de Controle de Gastos**, que é o projeto que eu mais recomendei destacar no GitHub. Eu faria ele mais profissional, mas sem parecer que você está tentando vender um projeto de estudante como algo gigante.
-
-# 💰 Aplicativo de Controle de Gastos
+# Aplicativo de Controle de Gastos
 
 Aplicativo desenvolvido em **Python** para auxiliar no controle e organização de gastos pessoais. O projeto permite registrar, consultar e gerenciar informações financeiras por meio de uma interface gráfica integrada a um banco de dados.
 
