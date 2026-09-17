@@ -82,28 +82,24 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Configure o banco de dados
+### 4. Execute o aplicativo
 
-Crie um banco de dados MySQL e configure as informações de conexão no arquivo `.env`.
+```bash
+python run.py
+```
 
-Exemplo:
+Na primeira execução, o aplicativo cria o banco (`db_controle_gastos`) e as tabelas (`usuarios` e `gastos`) **automaticamente**, conectando por padrão em `localhost` com usuário `root` e senha vazia (padrão do XAMPP/WAMP).
+
+Se o seu MySQL usa outra senha ou usuário, crie o arquivo `.env` dentro de `Controle_gastos/` para sobrescrever:
 
 ```env
 DB_HOST=localhost
 DB_USER=seu_usuario
 DB_PASSWORD=sua_senha
-DB_NAME=seu_banco
+DB_NAME=db_controle_gastos
 ```
-
-As tabelas (`usuarios` e `gastos`) são criadas **automaticamente** na primeira execução do programa. O usuário configurado no `.env` precisa ter permissão de criação (`CREATE`) no banco.
 
 > **Importante:** não compartilhe suas credenciais do banco de dados. O arquivo `.env` deve permanecer fora do controle de versão.
-
-### 5. Execute o aplicativo
-
-```bash
-python run.py
-```
 
 
 ## O que aprendi com este projeto
