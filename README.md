@@ -18,6 +18,8 @@ Aplicativo desenvolvido em **Python** para auxiliar no controle e organização 
 * **Python**
 * **MySQL**
 * **Tkinter**
+* **SQLAlchemy**
+* **PyMySQL**
 * **python-dotenv**
 * **Git/GitHub**
 
@@ -93,7 +95,9 @@ DB_PASSWORD=sua_senha
 DB_NAME=seu_banco
 ```
 
- Não compartilhe suas credenciais do banco de dados. O arquivo `.env` deve permanecer fora do controle de versão.
+As tabelas (`usuarios` e `gastos`) são criadas **automaticamente** na primeira execução do programa. O usuário configurado no `.env` precisa ter permissão de criação (`CREATE`) no banco.
+
+> **Importante:** não compartilhe suas credenciais do banco de dados. O arquivo `.env` deve permanecer fora do controle de versão.
 
 ### 5. Execute o aplicativo
 

@@ -1,38 +1,48 @@
-import mysql.connector
+from urllib.parse import quote_plus
+
+from sqlalchemy import DECIMAL, Date, Column, ForeignKey, Integer, String, create_engine
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
+
 from Controle_gastos.config import DB_host, DB_nome, DB_senha, DB_user
 
+
+class Base(DeclarativeBase):
+    pass
+
+
+class Usuario(Base):
+    __tablename__ = "usuarios"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nome = Column(String(100), nullable=False)
+    email = Column(String(100), unique=True, nullable=False)
+    senha = Column(String(255), nullable=False)
+
+
+class Gasto(Base):
+    __tablename__ = "gastos"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    id_usuario = Column(Integer, ForeignKey("usuarios.id"), nullable=False)
+    tipo = Column(String(20), nullable=False)
+    descricao = Column(String(255), nullable=False)
+    valor = Column(DECIMAL(10, 2), nullable=False)
+    categoria = Column(String(50), nullable=False)
+    data = Column(Date, nullable=False)
+
+
+DATABASE_URL = (
+    f"mysql+pymysql://{DB_user}:{quote_plus(DB_senha)}@"
+    f"{DB_host}/{DB_nome}?charset=utf8mb4"
+)
+
+engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+Session = sessionmaker(bind=engine)
+
+
 def conectar():
-    return mysql.connector.connect(
-        host = DB_host,
-        user = DB_user,
-        password = DB_senha,
-        database = DB_nome
-    )
+    return Session()
+
+
 def criar_tabelas():
-    conn = conectar()
-    cursor = conn.cursor()
-
-    cursor.execute(""" create table if not exists usuarios(
-                   id int auto_increment primary key,
-                   nome varchar(100) not null,
-                   email varchar(100) unique not null,
-                   senha varchar (255) not null
-                   )
-    """)
-    cursor.execute(
-        """ create table if not exists gastos(
-        id int auto_increment primary key,
-        id_usuario int,
-        tipo varchar (20) not null,
-        descricao varchar(255) not null,
-        valor decimal (10, 2) not null,
-        categoria varchar(50) not null,
-        data date not null,
-
-        foreign key (id_usuario)
-        references usuarios(id))
-        """
-    )
-
-    conn.commit()
-    conn.close()
+    Base.metadata.create_all(engine)

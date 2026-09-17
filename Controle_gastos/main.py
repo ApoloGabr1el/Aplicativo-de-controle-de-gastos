@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from Controle_gastos.banco import criar_tabelas
 from Controle_gastos.config import altura_janela, largura_janela
 from Telas.Inicio import tela_inicio
 from Telas.Login import tela_login
@@ -43,6 +44,11 @@ class App(ctk.CTk):
         self.tela_atual.pack(fill="both", expand=True)
 
 
-if __name__ == "__main__":
+def main():
+    criar_tabelas()
     app = App()
     app.mainloop()
+
+
+if __name__ == "__main__":
+    main()
